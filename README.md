@@ -21,13 +21,13 @@
 
 ## 社区版私有部署方案
 
-> 单机版仅供社区交流学习，禁止任何商业/OEM行为，商业版请联系邮箱[sec-report@outlook.com](mailto:sec-report@outlook.com)。
+> 单机版仅供社区交流学习，禁止任何商业/OEM行为，商业版请联系邮箱[secaegis@outlook.com](mailto:secaegis@outlook.com)。
 
 ### 安装 && 运行
 
 ```shell
 mkdir SecAutoBan && cd SecAutoBan
-wget https://raw.githubusercontent.com/sec-report/SecAutoBan/main/run.sh
+wget https://raw.githubusercontent.com/SecAegis/SecAutoBan/main/run.sh
 chmod +x run.sh
 ./run.sh
 ```
@@ -120,7 +120,7 @@ Docker全部运行后访问 [http://127.0.0.1/](http://127.0.0.1/) 访问管理�
 
 ## 其他作品
 
-[SecReport](https://github.com/sec-report/SecReport)：ChatGPT加持的，多人在线协同信息安全报告编写平台。
+[SecReport](https://github.com/SecAegis/SecReport)：ChatGPT加持的，多人在线协同信息安全报告编写平台。
 
 ## Star History
 
