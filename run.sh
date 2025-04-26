@@ -2,7 +2,7 @@
 
 downloadSelf(){
     if [ ! -f "run.sh" ]; then
-        wget https://raw.githubusercontent.com/sec-report/SecAutoBan/main/run.sh -O run.sh
+        wget https://raw.githubusercontent.com/SecAegis/SecAutoBan/main/run.sh -O run.sh
         chmod +x run.sh
     fi
 }
@@ -10,9 +10,9 @@ downloadSelf(){
 downloadDockerCompose(){
     if [ ! -f "docker-compose.yml" ]; then
         if curl -s http://cip.cc | grep -q "中国"; then
-            wget https://raw.githubusercontent.com/sec-report/SecAutoBan/main/docker-compose_cn.yml -O docker-compose.yml
+            wget https://raw.githubusercontent.com/SecAegis/SecAutoBan/main/docker-compose_cn.yml -O docker-compose.yml
         else
-            wget https://raw.githubusercontent.com/sec-report/SecAutoBan/main/docker-compose.yml -O docker-compose.yml
+            wget https://raw.githubusercontent.com/SecAegis/SecAutoBan/main/docker-compose.yml -O docker-compose.yml
         fi
     fi
 }
