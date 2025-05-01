@@ -7,11 +7,11 @@ setuptools.setup(
     name="SecAutoBan",
     version="3.0.3",
     author="SecReport",
-    author_email="sec-report@outlook.com",
+    author_email="secaegis@outlook.com",
     description="SecAutoBan SDK",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/sec-report/SecAutoBan",
+    url="https://github.com/SecAegis/SecAutoBan",
     packages=setuptools.find_packages(),
     install_requires = ["pycryptodome", "websocket-client"]
 )

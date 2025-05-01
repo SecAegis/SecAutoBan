@@ -125,5 +125,5 @@ Docker全部运行后访问 [http://127.0.0.1/](http://127.0.0.1/) 访问管理�
 ## Star History
 
 <a href="https://github.com/sec-report/SecAutoBan/stargazers">
-    <img width="500" alt="Star History Chart" src="https://api.star-history.com/svg?repos=sec-report/SecAutoBan&type=Date">
+    <img width="500" alt="Star History Chart" src="https://api.star-history.com/svg?repos=SecAegis/SecAutoBan&type=Date">
 </a> 

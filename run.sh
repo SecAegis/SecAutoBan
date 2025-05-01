@@ -26,7 +26,7 @@ createPassword(){
 exec() {
     if [ "$1" = "changeUserPassword" ]
     then
-        docker compose exec sec-report /sec_report $1 $2 $3 $4 $5
+        docker compose exec sec-auto-ban /sec_report $1 $2 $3 $4 $5
     fi
 }
 
