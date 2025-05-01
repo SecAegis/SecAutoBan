@@ -3,7 +3,7 @@
 ## 下载模块
 
 ```
-wget https://raw.githubusercontent.com/sec-report/SecAutoBan/main/device/alarm/threatbook_hfish/threatbook_hfish.py
+wget https://raw.githubusercontent.com/SecAegis/SecAutoBan/main/device/alarm/threatbook_hfish/threatbook_hfish.py
 ```
 
 ## 配置说明

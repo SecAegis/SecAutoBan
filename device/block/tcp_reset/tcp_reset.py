@@ -25,7 +25,6 @@ def send_reset(iface, seq_jitter=0, default_window_size=2052):
         dst_port = p[TCP].dport
         seq = p[TCP].seq
         ack = p[TCP].ack
-        sec_auto_ban.print("[+] 阻断连接：" + src_ip + ":" + str(src_port) + " -> " + dst_ip + ":" + str(dst_port))
         jitter = random.randint(max(-seq_jitter, -seq), seq_jitter)
         rst_seq = ack + jitter
         try:
@@ -38,7 +37,7 @@ def send_reset(iface, seq_jitter=0, default_window_size=2052):
                 send(p, verbose=0, iface=iface)
                 return
         except Exception as e:
-            sec_auto_ban.print("[-] 阻断失败: Error: " + str(e))
+            pass
     return f
 
 
@@ -53,11 +52,10 @@ def is_filter():
 
 def get_db_all_ip():
     db_ip_list = []
-    sql_conn = sqlite3.connect(db_name)
-    cursor = sql_conn.cursor().execute("SELECT ip from IP")
-    for row in cursor:
-        db_ip_list.append(row[0])
-    sql_conn.close()
+    with sqlite3.connect(db_name) as sql_conn:
+        cursor = sql_conn.cursor().execute("SELECT ip from IP")
+        for row in cursor:
+            db_ip_list.append(row[0])
     return db_ip_list
 
 
@@ -66,19 +64,17 @@ def block_ip(ip):
         return
     global ban_ip_list
     ban_ip_list.append(ip)
-    sql_conn = sqlite3.connect(db_name)
-    sql_conn.execute('INSERT INTO IP (ip) VALUES (?)', (ip,))
-    sql_conn.commit()
-    sql_conn.close()
+    with sqlite3.connect(db_name) as sql_conn:
+        sql_conn.execute('INSERT INTO IP (ip) VALUES (?)', (ip,))
+        sql_conn.commit()
 
 
 def unblock_ip(ip):
     global ban_ip_list
     ban_ip_list.remove(ip)
-    sql_conn = sqlite3.connect(db_name)
-    sql_conn.execute('DELETE FROM IP WHERE ip=?', (ip,))
-    sql_conn.commit()
-    sql_conn.close()
+    with sqlite3.connect(db_name) as sql_conn:
+        sql_conn.execute('DELETE FROM IP WHERE ip=?', (ip,))
+        sql_conn.commit()
 
 
 def get_all_block_ip() -> list:
@@ -90,14 +86,13 @@ def check_exist_ip(ip) -> bool:
 
 
 def run_sniff():
-    sql_conn = sqlite3.connect(db_name)
-    sql_conn.execute('''
-        CREATE TABLE IF NOT EXISTS IP (
-            ip TEXT,
-            CONSTRAINT idx_ip UNIQUE (ip)
-        )
-    ''')
-    sql_conn.close()
+    with sqlite3.connect(db_name) as sql_conn:
+        sql_conn.execute('''
+            CREATE TABLE IF NOT EXISTS IP (
+                ip TEXT,
+                CONSTRAINT idx_ip UNIQUE (ip)
+            )
+        ''')
     global ban_ip_list
     ban_ip_list.clear()
     ban_ip_list += get_db_all_ip()
@@ -123,6 +118,7 @@ if __name__ == "__main__":
         get_all_block_ip= get_all_block_ip
     )
     pool = ThreadPool(processes=1)
+    sec_auto_ban.print("[*] 开始拦截")
     pool.apply_async(run_sniff)
     pool.close()
     sec_auto_ban.run()

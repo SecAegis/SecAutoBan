@@ -7,7 +7,7 @@
 ## 下载模块
 
 ```
-wget https://raw.githubusercontent.com/sec-report/SecAutoBan/main/device/block/tcp_reset/tcp_reset.py
+wget https://raw.githubusercontent.com/SecAegis/SecAutoBan/main/device/block/tcp_reset/tcp_reset.py
 ```
 
 ## 配置说明

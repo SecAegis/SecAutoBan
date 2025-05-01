@@ -5,7 +5,7 @@
 ## 下载模块
 
 ```
-wget https://raw.githubusercontent.com/sec-report/SecAutoBan/main/device/block/workweixin_robot/workweixin_robot.py
+wget https://raw.githubusercontent.com/SecAegis/SecAutoBan/main/device/block/workweixin_robot/workweixin_robot.py
 ```
 
 ## 配置说明

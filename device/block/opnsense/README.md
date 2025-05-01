@@ -5,7 +5,7 @@ OPNsense封禁模块
 ## 下载模块
 
 ```
-wget https://raw.githubusercontent.com/sec-report/SecAutoBan/main/device/block/opnsense/opnsense.py
+wget https://raw.githubusercontent.com/SecAegis/SecAutoBan/main/device/block/opnsense/opnsense.py
 ```
 
 ## 配置OPNsense

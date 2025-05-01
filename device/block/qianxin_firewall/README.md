@@ -7,7 +7,7 @@
 ## 下载模块
 
 ```
-wget https://raw.githubusercontent.com/sec-report/SecAutoBan/main/device/block/qianxin_firewall/qianxin_firewall.py
+wget https://raw.githubusercontent.com/SecAegis/SecAutoBan/main/device/block/qianxin_firewall/qianxin_firewall.py
 ```
 
 ## 配置奇安信防火墙

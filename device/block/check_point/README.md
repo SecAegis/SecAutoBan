@@ -5,7 +5,7 @@ CheckPoint封禁模块
 ## 下载模块
 
 ```
-wget https://raw.githubusercontent.com/sec-report/SecAutoBan/main/device/block/check_point/check_point.py
+wget https://raw.githubusercontent.com/SecAegis/SecAutoBan/main/device/block/check_point/check_point.py
 ```
 
 ## 配置CheckPoint

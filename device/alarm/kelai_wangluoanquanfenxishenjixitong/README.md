@@ -3,7 +3,7 @@
 ## 下载模块
 
 ```
-wget https://raw.githubusercontent.com/sec-report/SecAutoBan/main/device/alarm/kelai_wangluoanquanfenxishenjixitong/kelai_wangluoanquanfenxishenjixitong.py
+wget https://raw.githubusercontent.com/SecAegis/SecAutoBan/main/device/alarm/kelai_wangluoanquanfenxishenjixitong/kelai_wangluoanquanfenxishenjixitong.py
 ```
 
 ## 配置说明
