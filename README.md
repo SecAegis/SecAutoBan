@@ -1,5 +1,8 @@
 # SecAutoBan
+
 安全设备告警IP全自动封禁平台，支持百万IP秒级分析处理。
+
+[文档中心](https://secaegis.com/)
 
 ![](./img/index.gif)
 
@@ -8,8 +11,6 @@
 ![](./img/dashboard.gif)
 
 > 以上演示过程中出现的攻击IP均为随机生成，不构成任何威胁建议。
-
-[文档中心](https://secaegis.com/)
 
 # 开始使用
 
