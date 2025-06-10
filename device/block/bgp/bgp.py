@@ -23,7 +23,7 @@ def block_ip(ip):
         prefix = "/128"
     elif ip_version == "Invalid IP":
         return
-    subprocess.run(['gobgp', 'global', "rib", "add", ip + prefix, "nexthop", nexthop])
+    subprocess.run(['gobgp', 'global', "rib", "add", ip + prefix, "nexthop", nexthop_v4 if ip_version == "IPv4" else nexthop_v6])
 
 
 def unblock_ip(ip):
@@ -41,7 +41,7 @@ def get_all_block_ip() -> list:
     for i in result.stdout.split("\n")[1:]:
         if i == "":
             continue
-        if nexthop not in i:
+        if nexthop_v4 not in i and nexthop_v6 not in i:
             continue
         ip_list.append(i.split(" ")[1].split("/")[0])
     return ip_list
@@ -52,7 +52,8 @@ def check_exist_ip(ip) -> bool:
 
 
 if __name__ == "__main__":
-    nexthop = "192.0.2.1" # 黑洞地址
+    nexthop_v4 = "192.0.2.1" # ipv4黑洞地址
+    nexthop_v6 = "fc00::ac11:1/128" # ipv6黑洞地址
     sec_auto_ban = SecAutoBan(
         server_ip="127.0.0.1",
         server_port=80,
