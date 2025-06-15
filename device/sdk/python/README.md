@@ -21,7 +21,7 @@ sec_auto_ban = SecAutoBan(
     server_port=8000,
     sk="sk-*****",
     client_type="alarm",
-    alarm_analysis = alarm_analysis
+    alarm_analysis=alarm_analysis
 )
 sec_auto_ban.run()
 ```
@@ -51,10 +51,10 @@ sec_auto_ban = SecAutoBan(
     server_port=8000,
     sk="sk-*****",
     client_type="block",
-    block_ip = block_ip,
-    unblock_ip = unblock_ip,
-    get_all_block_ip= get_all_block_ip,
-    enable_cidr = False
+    block_ip=block_ip,
+    unblock_ip=unblock_ip,
+    get_all_block_ip=get_all_block_ip,
+    enable_cidr=False
 )
 sec_auto_ban.run()
 ```

@@ -17,8 +17,8 @@ if __name__ == "__main__":
         server_port=80,
         sk="sk-*****",
         client_type="block",
-        block_ip = block_ip,
-        unblock_ip = unblock_ip,
-        enable_cidr = False
+        block_ip=block_ip,
+        unblock_ip=unblock_ip,
+        enable_cidr=False
     )
     sec_auto_ban.run()

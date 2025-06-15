@@ -56,9 +56,9 @@ if __name__ == "__main__":
         server_port=80,
         sk="sk-*****",
         client_type="block",
-        block_ip = block_ip,
-        unblock_ip = unblock_ip,
-        enable_cidr = True
+        block_ip=block_ip,
+        unblock_ip=unblock_ip,
+        enable_cidr=True
     )
     pool = ThreadPool(processes=1)
     pool.apply_async(push)
