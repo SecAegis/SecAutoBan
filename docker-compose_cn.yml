@@ -21,7 +21,7 @@ services:
         - mysql
     environment:
       listen: 0.0.0.0:80
-      db_dsn: mysql://root:${mysql_password}@tcp(mysql:3306)/sec_auto_ban?charset=utf8mb4&parseTime=True&loc=Local
+      db_dsn: postgres://sec_auto_ban:${db_password}@postgres:5432/sec_auto_ban?sslmode=disable&TimeZone=Asia/Shanghai
     networks:
       - sec_auto_ban
     ports:
