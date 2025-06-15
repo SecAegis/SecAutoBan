@@ -14,15 +14,15 @@ def push():
             "msgtype": "text",
             "text":{
                 "content":"封禁IP如下：\n" + "\n".join(ban_ip_list)
-    	   }
+           }
         }
         ban_ip_list.clear()
         sec_auto_ban.print("[+] 推送消息: " + post_data["text"]["content"])
         try:
-        	response= requests.post(webhook + hook_key, json=post_data, timeout=60)
-        	response.raise_for_status()
+            response= requests.post(webhook + hook_key, json=post_data, timeout=60)
+            response.raise_for_status()
         except requests.exceptions.RequestException as e:
-        	sec_auto_ban.print(f"[+] 推送消息失败: {e}")
+            sec_auto_ban.print(f"[+] 推送消息失败: {e}")
 
 def block_ip(ip):
     if check_exist_ip(ip):
@@ -52,6 +52,7 @@ if __name__ == "__main__":
         client_type="block",
         block_ip = block_ip,
         unblock_ip = unblock_ip,
+        enable_cidr = True
     )
     pool = ThreadPool(processes=1)
     pool.apply_async(push)

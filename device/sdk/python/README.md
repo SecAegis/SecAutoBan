@@ -53,7 +53,8 @@ sec_auto_ban = SecAutoBan(
     client_type="block",
     block_ip = block_ip,
     unblock_ip = unblock_ip,
-    get_all_block_ip= get_all_block_ip
+    get_all_block_ip= get_all_block_ip,
+    enable_cidr = False
 )
 sec_auto_ban.run()
 ```
@@ -66,6 +67,7 @@ sec_auto_ban.run()
 | server_port      | 核心模块回连端口  | 需要             |
 | sk               | 设备页面生成的密钥 | 需要             |
 | client_type      | 模块类型(`alarm`/`block`) | 需要             |
+| enable_cidr      | 封禁模块是否开启 `Cidr` 封禁，若开启`block_ip()`和`unblock_ip()`参数将传入`Cidr` | 可选，默认为 `False`             |
 | alarm_analysis   | 告警分析函数        | `alarm`模块必填 |
 | block_ip         | 封禁函数              | `block`模块必填 |
 | unblock_ip       | 解禁函数              | `block`模块必填 |

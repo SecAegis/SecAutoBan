@@ -46,10 +46,10 @@ def block_ip(ip):
     r = requests.post(url, json=post_data, cookies=cookies, timeout=60, verify=False)
     logout(cookies)
     if r.status_code != 200:
-        customize_print("[-] 添加封禁失败")
+        sec_auto_ban.print("[-] 添加封禁失败")
         return
     if r.json()["head"]["error_code"] != 0:
-        customize_print("[-] 添加封禁失败")
+        sec_auto_ban.print("[-] 添加封禁失败")
         return
 
 
@@ -74,10 +74,10 @@ def unblock_ip(ip):
     r = requests.post(url, json=post_data, cookies=cookies, timeout=60, verify=False)
     logout(cookies)
     if r.status_code != 200:
-        customize_print("[-] 解除封禁失败")
+        sec_auto_ban.print("[-] 解除封禁失败")
         return
     if r.json()["head"]["error_code"] != 0:
-        customize_print("[-] 解除封禁失败")
+        sec_auto_ban.print("[-] 解除封禁失败")
 
 
 def get_all_block_ip() -> list:

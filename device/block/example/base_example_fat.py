@@ -32,6 +32,7 @@ if __name__ == "__main__":
         client_type="block",
         block_ip = block_ip,
         unblock_ip = unblock_ip,
-        get_all_block_ip= get_all_block_ip
+        get_all_block_ip= get_all_block_ip,
+        enable_cidr = False
     )
     sec_auto_ban.run()

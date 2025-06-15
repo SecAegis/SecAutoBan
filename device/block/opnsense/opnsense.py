@@ -11,10 +11,10 @@ def block_ip(ip):
     url = opnsense_config["url"] + "/api/firewall/alias_util/add/" + opnsense_config["alias_name"]
     r = requests.post(url, auth=(opnsense_config["api_key"], opnsense_config["api_secret"]), json=post_data, timeout=60)
     if r.status_code != 200:
-        customize_print("[-] 添加封禁失败")
+        sec_auto_ban.print("[-] 添加封禁失败")
         return
     if r.json()["status"] != "done":
-        customize_print("[-] 添加封禁失败")
+        sec_auto_ban.print("[-] 添加封禁失败")
 
 
 def unblock_ip(ip):
@@ -24,10 +24,10 @@ def unblock_ip(ip):
     }
     r = requests.post(url, auth=(opnsense_config["api_key"], opnsense_config["api_secret"]), json=post_data, timeout=60)
     if r.status_code != 200:
-        customize_print("[-] 解除封禁失败")
+        sec_auto_ban.print("[-] 解除封禁失败")
         return
     if r.json()["status"] != "done":
-        customize_print("[-] 解除封禁失败")
+        sec_auto_ban.print("[-] 解除封禁失败")
 
 
 def get_all_block_ip() -> list:
@@ -35,7 +35,7 @@ def get_all_block_ip() -> list:
     url = opnsense_config["url"] + "/api/firewall/alias_util/list/" + opnsense_config["alias_name"]
     r = requests.get(url, auth=(opnsense_config["api_key"], opnsense_config["api_secret"]), timeout=60)
     if r.status_code != 200:
-        customize_print("[-] 获取全量IP失败")
+        sec_auto_ban.print("[-] 获取全量IP失败")
         return
     for i in r.json()["rows"]:
         ip_list.append(i["ip"])

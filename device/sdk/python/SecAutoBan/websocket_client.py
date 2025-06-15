@@ -1,5 +1,6 @@
 import json
 import time
+import ipaddress
 import websocket
 from . import util
 from multiprocessing.pool import ThreadPool
@@ -8,13 +9,15 @@ class WebSocketClient:
     init = False
     is_login = False
     sync_flag = False
+    enable_cidr = False
     send_alarm_ip_list = []
     pool = ThreadPool(processes=1)
     
-    def __init__(self, server_ip: str, server_port: int, sk: str, client_type: str, block_ip=None, unblock_ip=None, get_all_block_ip=None):
+    def __init__(self, server_ip: str, server_port: int, sk: str, client_type: str, enable_cidr=False, block_ip=None, unblock_ip=None, get_all_block_ip=None):
         self.server_ip = server_ip
         self.server_port = server_port
         self.sk = sk
+        self.enable_cidr = enable_cidr
         if client_type not in ["alarm", "block"]:
             util.print("[-] 初始化失败: 未知的模块类型" + client_type)
             return
@@ -35,16 +38,18 @@ class WebSocketClient:
         )
         self.init =True
 
-    def sync_block_ip(self, ips):
+    def sync_block_ip(self, cidr_list):
         self.sync_flag = True
-        util.print("[+] 同步全量封禁IP库: " + str(len(ips)) + "个")
+        if self.enable_cidr is False:
+            cidr_list = [ip for cidr in cidr_list for ip in ipaddress.ip_network(cidr)]
+        util.print("[+] 同步全量封禁IP库: " + str(len(cidr_list)) + "个")
         device_all_block_ip = self.get_all_block_ip()
         for deviceIp in device_all_block_ip:
-            if deviceIp not in ips:
+            if deviceIp not in cidr_list:
                 self.unblock_ip(deviceIp)
-        for ip in ips:
-            if ip not in device_all_block_ip:
-                self.block_ip(ip)
+        for cidr in cidr_list:
+            if cidr not in device_all_block_ip:
+                self.block_ip(cidr)
         util.print("[+] 同步全量封禁IP库完成")
         self.sync_flag = False
 
@@ -56,13 +61,21 @@ class WebSocketClient:
             self.is_login = True
             util.print("[+] 登录成功，设备名称: " + message["data"]["deviceName"])
         if self.client_type == "block":
-            if message["method"] == "blockIp":
-                util.print("[+] 封禁IP: " + message["data"]["ip"])
-                self.block_ip(message["data"]["ip"])
+            if message["method"] == "blockCidr":
+                util.print("[+] 封禁IP: " + message["data"]["cidr"])
+                if self.enable_cidr:
+                    self.block_ip(message["data"]["cidr"])
+                else:
+                    for ip in ipaddress.ip_network(message["data"]["cidr"]):
+                        self.block_ip(ip)
                 return
-            if message["method"] == "unblockIp":
-                util.print("[+] 解禁IP: " + message["data"]["ip"])
-                self.unblock_ip(message["data"]["ip"])
+            if message["method"] == "unblockCidr":
+                util.print("[+] 解禁IP: " + message["data"]["cidr"])
+                if self.enable_cidr:
+                    self.unblock_ip(message["data"]["cidr"])
+                else:
+                    for ip in ipaddress.ip_network(message["data"]["cidr"]):
+                        self.unblock_ip(ip)
                 return
             if message["method"] == "sync":
                 if self.get_all_block_ip is None:
@@ -71,7 +84,7 @@ class WebSocketClient:
                 if self.sync_flag:
                     util.print("[-] 全量封禁IP同步失败：已有线程进行全量封禁IP库同步，跳过本次请求")
                     return
-                self.pool.apply_async(self.sync_block_ip, (message["data"]["ips"],))
+                self.pool.apply_async(self.sync_block_ip, (message["data"]["cidrList"],))
                 return    
 
     def on_error(self, w, error):

@@ -1,3 +1,4 @@
+import random
 import sqlite3
 from SecAutoBan import SecAutoBan
 from scapy.all import sniff, send
