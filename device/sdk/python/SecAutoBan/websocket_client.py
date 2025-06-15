@@ -66,7 +66,7 @@ class WebSocketClient:
                 if self.enable_cidr:
                     self.block_ip(message["data"]["cidr"])
                 else:
-                    for ip in ipaddress.ip_network(message["data"]["cidr"].hosts()):
+                    for ip in ipaddress.ip_network(message["data"]["cidr"]).hosts():
                         self.block_ip(ip)
                 return
             if message["method"] == "unblockCidr":
@@ -74,7 +74,7 @@ class WebSocketClient:
                 if self.enable_cidr:
                     self.unblock_ip(message["data"]["cidr"])
                 else:
-                    for ip in ipaddress.ip_network(message["data"]["cidr"].hosts()):
+                    for ip in ipaddress.ip_network(message["data"]["cidr"]).hosts():
                         self.unblock_ip(ip)
                 return
             if message["method"] == "sync":
