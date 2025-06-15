@@ -41,7 +41,7 @@ class WebSocketClient:
     def sync_block_ip(self, cidr_list):
         self.sync_flag = True
         if self.enable_cidr is False:
-            cidr_list = [ip for cidr in cidr_list for ip in ipaddress.ip_network(cidr).hosts()]
+            cidr_list = [str(ip) for cidr in cidr_list for ip in ipaddress.ip_network(cidr).hosts()]
         util.print("[+] 同步全量封禁IP库: " + str(len(cidr_list)) + "个")
         device_all_block_ip = self.get_all_block_ip()
         for deviceIp in device_all_block_ip:
@@ -67,7 +67,7 @@ class WebSocketClient:
                     self.block_ip(message["data"]["cidr"])
                 else:
                     for ip in ipaddress.ip_network(message["data"]["cidr"]).hosts():
-                        self.block_ip(ip)
+                        self.block_ip(str(ip))
                 return
             if message["method"] == "unblockCidr":
                 util.print("[+] 解禁IP: " + message["data"]["cidr"])
@@ -75,7 +75,7 @@ class WebSocketClient:
                     self.unblock_ip(message["data"]["cidr"])
                 else:
                     for ip in ipaddress.ip_network(message["data"]["cidr"]).hosts():
-                        self.unblock_ip(ip)
+                        self.unblock_ip(str(ip))
                 return
             if message["method"] == "sync":
                 if self.get_all_block_ip is None:
