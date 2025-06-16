@@ -16,7 +16,7 @@ def check_cidr_type(cidr):
 def block_ip(cidr):
     if check_exist_ip(cidr):
         return
-    if cidr == "0.0.0.0/0":
+    if cidr == "0.0.0.0/0" or cidr == "::/0":
         return
     subprocess.run(['gobgp', 'global', "rib", "add", cidr, "nexthop", nexthop_v4 if check_cidr_type(cidr) == "IPv4" else nexthop_v6])
 
