@@ -16,13 +16,21 @@ def check_cidr_type(cidr):
 def block_ip(cidr):
     if check_exist_ip(cidr):
         return
-    if cidr == "0.0.0.0/0" or cidr == "::/0":
-        return
-    subprocess.run(['gobgp', 'global', "rib", "add", cidr, "nexthop", nexthop_v4 if check_cidr_type(cidr) == "IPv4" else nexthop_v6])
+    if check_cidr_type(cidr) == "IPv4":
+        if cidr == "0.0.0.0/0":
+            return
+        subprocess.run(['gobgp', 'global', "rib", "add", cidr, "nexthop", nexthop_v4])
+    elif check_cidr_type(cidr) == "IPv6":
+        if cidr == "::/0":
+            return
+        subprocess.run(['gobgp', 'global', "rib", "add", cidr, "-a", "ipv6", "nexthop", nexthop_v6])
 
 
 def unblock_ip(cidr):
-    subprocess.run(['gobgp', 'global', "rib", "del", cidr])
+    if check_cidr_type(cidr) == "IPv4":
+        subprocess.run(['gobgp', 'global', "rib", "del", cidr])
+    elif check_cidr_type(cidr) == "IPv6":
+        subprocess.run(['gobgp', 'global', "rib", "del", cidr, "-a", "ipv6"])
 
 
 def get_all_block_ip() -> list:
@@ -31,7 +39,14 @@ def get_all_block_ip() -> list:
     for i in result.stdout.split("\n")[1:]:
         if i == "":
             continue
-        if nexthop_v4 not in i and nexthop_v6 not in i:
+        if nexthop_v4 not in i:
+            continue
+        ip_list.append(i.split(" ")[1])
+    result = subprocess.run(['gobgp', 'global', "rib", "-a", "ipv6"], capture_output=True, text=True)
+    for i in result.stdout.split("\n")[1:]:
+        if i == "":
+            continue
+        if nexthop_v6 not in i:
             continue
         ip_list.append(i.split(" ")[1])
     return ip_list

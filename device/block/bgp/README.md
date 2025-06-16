@@ -33,6 +33,10 @@ cat << EOF > /etc/gobgp/gobgpd.conf
   [neighbors.config]
     neighbor-address = "192.168.0.1"
     peer-as = 65551
+
+[[neighbors.afi-safis]]
+    [neighbors.afi-safis.config]
+    afi-safi-name = "ipv6-unicast"
 EOF
 
 # 添加为服务并启动
