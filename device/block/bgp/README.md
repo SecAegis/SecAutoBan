@@ -36,6 +36,10 @@ cat << EOF > /etc/gobgp/gobgpd.conf
 
 [[neighbors.afi-safis]]
     [neighbors.afi-safis.config]
+    afi-safi-name = "ipv4-unicast"
+
+[[neighbors.afi-safis]]
+    [neighbors.afi-safis.config]
     afi-safi-name = "ipv6-unicast"
 EOF
 
