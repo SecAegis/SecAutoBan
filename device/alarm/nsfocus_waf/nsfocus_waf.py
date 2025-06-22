@@ -8,25 +8,24 @@ class SyslogUDPHandler(socketserver.BaseRequestHandler):
         super().__init__(request, client_address, server)
     def handle(self):
         data = self.request[0]
-        message = data.decode('utf-8')
-        if "  action:Block  " not in message:
+        if b"  action:Block  " not in data:
             return
         src_ip = ""
         dst_ip = ""
         event_type = ""
-        for i in message.split("  "):
-            if i[:7] == "src_ip:":
-                src_ip = i[7:]
+        for i in data.split(b"  "):
+            if i[:7] == b"src_ip:":
+                src_ip = i[7:].decode()
                 continue
-            if i[:7] == "dst_ip:":
-                dst_ip = i[7:]
+            if i[:7] == b"dst_ip:":
+                dst_ip = i[7:].decode()
                 continue
-            if i[:11] == "event_type:":
-                if i[11:] == "Info_Leak":
+            if i[:11] == b"event_type:":
+                if i[11:] == b"Info_Leak":
                     return
-                if i[11:] == "WEB Access Logs":
+                if i[11:] == b"WEB Access Logs":
                     return
-                event_type = i[11:]
+                event_type = i[11:].decode()
             if src_ip != "" and dst_ip != "" and event_type != "":
                 break
         self.ws_client.send_alarm(src_ip, dst_ip, event_type)
