@@ -28,14 +28,15 @@ class SyslogUDPHandler(socketserver.BaseRequestHandler):
         data = self.request[0].split(b' ')
         if len(data) < 7:
             return
-        if data[7] == "xxx1":
+        if data[7] == b"xxx1":
             socket.socket(socket.AF_INET, socket.SOCK_DGRAM).sendto(b''.join(data[7:]), ("127.0.0.1", 515))
             add_count("xxx1")
-        elif data[7] == "xxx2":
+        elif data[7] == b"xxx2":
             socket.socket(socket.AF_INET, socket.SOCK_DGRAM).sendto(b''.join(data[7:]), ("127.0.0.1", 516))
             add_count("xxx2")
         else:
             pass
+
 
 if __name__ == "__main__":
     message_count = {}

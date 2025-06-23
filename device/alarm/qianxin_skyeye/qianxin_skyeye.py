@@ -28,7 +28,6 @@ class SyslogUDPHandler(socketserver.BaseRequestHandler):
         self.ws_client.send_alarm(sip, msg["alarm_sip"], "[" + msg["type"] + "]" + msg["vuln_type"])
 
 
-
 def alarm_analysis(ws_client):
     with socketserver.ThreadingUDPServer(("0.0.0.0", listen_syslog_udp_port), lambda *args: SyslogUDPHandler(*args, ws_client=ws_client)) as server:
         sec_auto_ban.print("[+] 监听SysLog端口: " + str(listen_syslog_udp_port) + "/UDP")
