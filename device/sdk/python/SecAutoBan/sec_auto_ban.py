@@ -24,7 +24,7 @@ class SecAutoBan:
         processes = 1
         if self.client_type == "alarm":
             processes += 1
-        pool = ThreadPool(processes=2)
+        pool = ThreadPool(processes=processes)
         pool.apply_async(self.ws_client.connect)
         if self.client_type == "alarm":
             pool.apply_async(self.alarm_analysis, args=(self.ws_client,))

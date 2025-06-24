@@ -7,11 +7,12 @@ from multiprocessing.pool import ThreadPool
 
 class WebSocketClient:
     init = False
+    connect_status = False
     is_login = False
     sync_flag = False
     enable_cidr = False
     send_alarm_ip_list = []
-    pool = ThreadPool(processes=1)
+    pool = ThreadPool(processes=2)
     
     def __init__(self, server_ip: str, server_port: int, sk: str, client_type: str, enable_cidr=False, block_ip=None, unblock_ip=None, get_all_block_ip=None):
         self.server_ip = server_ip
@@ -92,10 +93,7 @@ class WebSocketClient:
 
     def on_close(self, w, code, message):
         self.is_login = False
-        util.print("[-] 服务器连接异常断开")
-        util.print("[*] 5秒后自动重连")
-        time.sleep(5)
-        self.connect()
+        self.connect_status = False
 
     def on_open(self, w):
         util.print("[+] 连接服务器")
@@ -113,10 +111,23 @@ class WebSocketClient:
             send_data["data"]["type"] = "blockDevice"
         self.ws.send(key + iv + util.aes_cfb_encrypt(key, iv, json.dumps(send_data).encode()))
 
+
+    def web_socket_d(self):
+        while True:
+            time.sleep(1)
+            if not self.connect_status:
+                util.print("[-] 服务器连接异常断开")
+                util.print("[*] 5秒后自动重连")
+                time.sleep(5)
+                self.ws.run_forever(skip_utf8_validation=True)
+                self.connect_status = True
+
     def connect(self):
         if not self.init:
+            util.print("[-] 未初始化")
             return
-        self.ws.run_forever(skip_utf8_validation=True)
+        self.pool.apply_async(self.web_socket_d)
+
 
     def send_alarm(self, ip: str, attackAsset: str, attackMethod: str):
         if self.client_type == "block":
