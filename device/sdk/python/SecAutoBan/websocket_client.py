@@ -111,23 +111,21 @@ class WebSocketClient:
             send_data["data"]["type"] = "blockDevice"
         self.ws.send(key + iv + util.aes_cfb_encrypt(key, iv, json.dumps(send_data).encode()))
 
-
     def web_socket_d(self):
         while True:
-            time.sleep(1)
             if not self.connect_status:
                 util.print("[-] 服务器连接异常断开")
                 util.print("[*] 5秒后自动重连")
                 time.sleep(5)
                 self.ws.run_forever(skip_utf8_validation=True)
                 self.connect_status = True
+            time.sleep(1)
 
     def connect(self):
         if not self.init:
             util.print("[-] 未初始化")
             return
         self.pool.apply_async(self.web_socket_d)
-
 
     def send_alarm(self, ip: str, attackAsset: str, attackMethod: str):
         if self.client_type == "block":
