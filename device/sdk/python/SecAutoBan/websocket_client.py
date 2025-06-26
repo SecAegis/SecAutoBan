@@ -93,6 +93,7 @@ class WebSocketClient:
 
     def on_close(self, w, code, message):
         util.print("[-] 服务器连接断开")
+        self.is_login = False
 
     def on_open(self, w):
         util.print("[+] 连接服务器")
