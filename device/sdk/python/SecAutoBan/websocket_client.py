@@ -7,7 +7,6 @@ from multiprocessing.pool import ThreadPool
 
 class WebSocketClient:
     init = False
-    connect_status = False
     is_login = False
     sync_flag = False
     enable_cidr = False
@@ -90,10 +89,10 @@ class WebSocketClient:
 
     def on_error(self, w, error):
         util.print("Error: " + str(error))
+        self.ws.close()
 
     def on_close(self, w, code, message):
-        self.is_login = False
-        self.connect_status = False
+        util.print("[-] 服务器连接断开")
 
     def on_open(self, w):
         util.print("[+] 连接服务器")
@@ -112,14 +111,11 @@ class WebSocketClient:
         self.ws.send(key + iv + util.aes_cfb_encrypt(key, iv, json.dumps(send_data).encode()))
 
     def web_socket_d(self):
+        self.ws.run_forever(skip_utf8_validation=True)
         while True:
-            if not self.connect_status:
-                util.print("[-] 服务器连接异常断开")
-                util.print("[*] 5秒后自动重连")
-                time.sleep(5)
-                self.ws.run_forever(skip_utf8_validation=True)
-                self.connect_status = True
-            time.sleep(1)
+            util.print("[*] 5秒后自动重连")
+            time.sleep(5)
+            self.ws.run_forever(skip_utf8_validation=True)
 
     def connect(self):
         if not self.init:
