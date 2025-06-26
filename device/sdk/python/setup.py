@@ -5,7 +5,7 @@ with open('README.md') as f:
 
 setuptools.setup(
     name="SecAutoBan",
-    version="3.3.3",
+    version="4.0.0",
     author="SecReport",
     author_email="secaegis@outlook.com",
     description="SecAutoBan SDK",
