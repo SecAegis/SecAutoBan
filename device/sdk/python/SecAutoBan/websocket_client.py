@@ -133,7 +133,7 @@ class WebSocketClient:
             return
         if ip in self.send_alarm_ip_list:
             return
-        if len(self.send_alarm_ip_list) > 1000:
+        if len(self.send_alarm_ip_list) > 20:
             self.send_alarm_ip_list.pop(0)
         self.send_alarm_ip_list.append(ip)
         send_data = {
