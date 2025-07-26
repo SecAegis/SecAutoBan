@@ -147,3 +147,16 @@ class WebSocketClient:
         iv = util.random_bytes()
         util.print("[+] 发送告警IP: " + ip + "->" + attackAsset + "\t" + attackMethod)
         self.ws.send(iv + util.aes_cfb_encrypt(self.sk[3:].encode(), iv, json.dumps(send_data).encode()))
+    def send_alert(self, title: str, content: str):
+        if not self.is_login:
+            util.print("[-] 未登录成功，无法发送数据")
+            return
+        send_data = {
+            "method": "alert",
+            "data": {
+                "title": title,
+                "content": content
+            }
+        }
+        iv = util.random_bytes()
+        self.ws.send(iv + util.aes_cfb_encrypt(self.sk[3:].encode(), iv, json.dumps(send_data).encode()))
