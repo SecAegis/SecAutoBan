@@ -11,25 +11,22 @@ class WebSocketClient:
     sync_flag = False
     enable_cidr = False
     send_alarm_ip_list = []
-    pool = ThreadPool(processes=2)
-    
+    sync_pool = ThreadPool(processes=1)
+
     def __init__(self, server_ip: str, server_port: int, sk: str, client_type: str, enable_cidr=False, block_ip=None, unblock_ip=None, get_all_block_ip=None, login_success_callback=None):
         self.server_ip = server_ip
         self.server_port = server_port
         self.sk = sk
         self.enable_cidr = enable_cidr
+        self.login_success_callback = login_success_callback
         if client_type not in ["alarm", "block"]:
             util.print("[-] 初始化失败: 未知的模块类型" + client_type)
             return
+        self.client_type = client_type
         if client_type == "block":
-            if block_ip is None or unblock_ip is None:
-                util.print("[-] 初始化失败: 未实现封禁函数")
-                return
             self.block_ip = block_ip
             self.unblock_ip = unblock_ip
             self.get_all_block_ip = get_all_block_ip
-        self.client_type = client_type
-        self.login_success_callback = login_success_callback
         self.ws = websocket.WebSocketApp(
             "ws://" + server_ip + ":" + str(server_port) + "/device",
             on_message=self.on_message,
@@ -87,8 +84,8 @@ class WebSocketClient:
                 if self.sync_flag:
                     util.print("[-] 全量封禁IP同步失败：已有线程进行全量封禁IP库同步，跳过本次请求")
                     return
-                self.pool.apply_async(self.sync_block_ip, (message["data"]["cidrList"],))
-                return    
+                self.sync_pool.apply_async(self.sync_block_ip, (message["data"]["cidrList"],))
+                return
 
     def on_error(self, w, error):
         util.print("Error: " + str(error))
@@ -114,18 +111,15 @@ class WebSocketClient:
             send_data["data"]["type"] = "blockDevice"
         self.ws.send(key + iv + util.aes_cfb_encrypt(key, iv, json.dumps(send_data).encode()))
 
-    def web_socket_d(self):
+    def connect(self):
+        if not self.init:
+            util.print("[-] 未初始化")
+            return
         self.ws.run_forever(skip_utf8_validation=True)
         while True:
             util.print("[*] 5秒后自动重连")
             time.sleep(5)
             self.ws.run_forever(skip_utf8_validation=True)
-
-    def connect(self):
-        if not self.init:
-            util.print("[-] 未初始化")
-            return
-        self.pool.apply_async(self.web_socket_d)
 
     def send_alarm(self, ip: str, attack_asset: str, attack_method: str):
         if self.client_type != "alarm":
