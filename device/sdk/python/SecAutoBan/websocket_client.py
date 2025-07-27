@@ -13,7 +13,7 @@ class WebSocketClient:
     send_alarm_ip_list = []
     pool = ThreadPool(processes=2)
     
-    def __init__(self, server_ip: str, server_port: int, sk: str, client_type: str, enable_cidr=False, block_ip=None, unblock_ip=None, get_all_block_ip=None):
+    def __init__(self, server_ip: str, server_port: int, sk: str, client_type: str, enable_cidr=False, block_ip=None, unblock_ip=None, get_all_block_ip=None, login_success_callback=None):
         self.server_ip = server_ip
         self.server_port = server_port
         self.sk = sk
@@ -29,6 +29,7 @@ class WebSocketClient:
             self.unblock_ip = unblock_ip
             self.get_all_block_ip = get_all_block_ip
         self.client_type = client_type
+        self.login_success_callback = login_success_callback
         self.ws = websocket.WebSocketApp(
             "ws://" + server_ip + ":" + str(server_port) + "/device",
             on_message=self.on_message,
@@ -60,6 +61,8 @@ class WebSocketClient:
         if message["method"] == "login":
             self.is_login = True
             util.print("[+] 登录成功，设备名称: " + message["data"]["deviceName"])
+            if self.login_success_callback is not None:
+                self.login_success_callback()
         if self.client_type == "block":
             if message["method"] == "blockCidr":
                 util.print("[+] 封禁IP: " + message["data"]["cidr"])
@@ -124,9 +127,9 @@ class WebSocketClient:
             return
         self.pool.apply_async(self.web_socket_d)
 
-    def send_alarm(self, ip: str, attackAsset: str, attackMethod: str):
-        if self.client_type == "block":
-            util.print("[-] 封禁模块无法发送告警数据")
+    def send_alarm(self, ip: str, attack_asset: str, attack_method: str):
+        if self.client_type != "alarm":
+            util.print("[-] 非告警模块无法发送告警数据")
             return
         if not self.is_login:
             util.print("[-] 未登录成功，无法发送数据")
@@ -140,12 +143,12 @@ class WebSocketClient:
             "method": "alarmIp",
             "data": {
                 "ip": ip,
-                "attackAsset": attackAsset,
-                "attackMethod": attackMethod
+                "attackAsset": attack_asset,
+                "attackMethod": attack_method
             }
         }
         iv = util.random_bytes()
-        util.print("[+] 发送告警IP: " + ip + "->" + attackAsset + "\t" + attackMethod)
+        util.print("[+] 发送告警IP: " + ip + "->" + attack_asset + "\t" + attack_method)
         self.ws.send(iv + util.aes_cfb_encrypt(self.sk[3:].encode(), iv, json.dumps(send_data).encode()))
     def send_notify(self, title: str, content: str):
         if not self.is_login:
@@ -157,6 +160,18 @@ class WebSocketClient:
                 "title": title,
                 "content": content
             }
+        }
+        iv = util.random_bytes()
+        self.ws.send(iv + util.aes_cfb_encrypt(self.sk[3:].encode(), iv, json.dumps(send_data).encode()))
+    def send_sync(self):
+        if self.client_type != "block":
+            util.print("[-] 非封禁模块无法请求封禁IP")
+            return
+        if not self.is_login:
+            util.print("[-] 未登录成功，无法发送数据")
+            return
+        send_data = {
+            "method": "syncBlockIp"
         }
         iv = util.random_bytes()
         self.ws.send(iv + util.aes_cfb_encrypt(self.sk[3:].encode(), iv, json.dumps(send_data).encode()))
