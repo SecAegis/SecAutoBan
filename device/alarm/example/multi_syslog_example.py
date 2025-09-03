@@ -23,7 +23,7 @@ def add_count(device_name):
         else:
             message_count[device_name] += 1
 
-class SyslogUDPHandler(socketserver.BaseRequestHandler):
+class SyslogUDPHandler(socketserver.DatagramRequestHandler):
     def handle(self):
         data = self.request[0].split(b' ')
         if len(data) < 7:

@@ -10,7 +10,7 @@ def is_lan(ip: str) -> bool:
     return False
 
 
-class SyslogUDPHandler(socketserver.BaseRequestHandler):
+class SyslogUDPHandler(socketserver.DatagramRequestHandler):
     def __init__(self, request, client_address, server, ws_client):
         self.ws_client = ws_client
         super().__init__(request, client_address, server)
