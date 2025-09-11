@@ -19,7 +19,13 @@ downloadDockerCompose(){
 
 createPassword(){
     if [ ! -f ".env" ]; then
-        echo "db_password=$(uuidgen |sed 's/-//g')" > .env
+        touch .env
+    fi
+    if ! grep -q "db_password=" .env; then
+        echo "db_password=$(uuidgen | sed 's/-//g')" >> .env
+    fi
+    if ! grep -q "mq_password" .env; then
+        echo "mq_password=$(uuidgen | sed 's/-//g')" >> .env
     fi
 }
 

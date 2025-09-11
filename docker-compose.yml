@@ -13,15 +13,24 @@ services:
       - ./data/postgres:/var/lib/postgresql/data
     networks:
       - sec_auto_ban
+  mq:
+    image: nats:latest
+    container_name: mq
+    restart: always
+    command: --user sec_auto_ban --pass ${mq_password}
+    networks:
+      - sec_auto_ban
   sec-auto-ban:
     image: secreport/sec-auto-ban:latest
     container_name: sec_auto_ban
     restart: always
     depends_on:
         - postgres
+        - mq
     environment:
       listen: 0.0.0.0:80
       db_dsn: postgres://sec_auto_ban:${db_password}@postgres:5432/sec_auto_ban?sslmode=disable&TimeZone=Asia/Shanghai
+      mq_url: nats://sec_auto_ban:${mq_password}@mq:4222
     networks:
       - sec_auto_ban
     ports:
