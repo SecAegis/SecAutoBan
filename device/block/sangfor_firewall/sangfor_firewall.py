@@ -32,6 +32,7 @@ def block_ip(ip):
     if token == "":
         return
     if check_exist_ip(token, ip):
+        logout(token)
         return
     url = fw_config["url"] + "/api/v1/namespaces/@namespace/whiteblacklist"
     post_data = {
@@ -54,6 +55,7 @@ def unblock_ip(ip):
     if token == "":
         return
     if not check_exist_ip(token, ip):
+        logout(token)
         return
     url = fw_config["url"] + "/api/v1/namespaces/@namespace/whiteblacklist/" + ip
     cookies = {
