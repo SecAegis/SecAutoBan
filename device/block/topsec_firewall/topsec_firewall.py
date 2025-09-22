@@ -41,6 +41,7 @@ def block_ip(ip):
         return
     token, exist_ip = check_exist_ip(s, userMark, token, ip)
     if exist_ip:
+        logout(s, userMark, token)
         return
     url = fw_config["url"] + "/home/default/blackListSpread/add/?userMark=" + userMark
     post_data = {
@@ -73,6 +74,7 @@ def unblock_ip(ip):
         return
     token, exist_ip = check_exist_ip(s, userMark, token, ip)
     if not exist_ip:
+        logout(s, userMark, token)
         return
     url = fw_config["url"] + "/home/default/blackListSpread/deleteLots/?userMark=" + userMark
     post_data = {

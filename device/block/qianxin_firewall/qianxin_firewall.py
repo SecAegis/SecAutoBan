@@ -28,6 +28,7 @@ def logout(cookies):
 def block_ip(ip):
     cookies = login()
     if check_exist_ip(cookies, ip):
+        logout(cookies)
         return
     url = fw_config["url"] + "/v1.0/rest/"
     post_data = [{
@@ -56,6 +57,7 @@ def block_ip(ip):
 def unblock_ip(ip):
     cookies = login()
     if not check_exist_ip(cookies, ip):
+        logout(cookies)
         return
     url = fw_config["url"] + "/v1.0/rest/"
     post_data = [{
