@@ -2,13 +2,13 @@
 
 ## 下载模块
 
-```
+```shell
 wget https://raw.githubusercontent.com/SecAegis/SecAutoBan/main/device/alarm/nsfocus_waf/nsfocus_waf.py
 ```
 
 ## 安装依赖
 
-```
+```shell
 pip3 install SecAutoBan
 ```
 

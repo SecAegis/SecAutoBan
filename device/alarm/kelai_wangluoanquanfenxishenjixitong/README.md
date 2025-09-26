@@ -2,13 +2,13 @@
 
 ## 下载模块
 
-```
+```shell
 wget https://raw.githubusercontent.com/SecAegis/SecAutoBan/main/device/alarm/kelai_wangluoanquanfenxishenjixitong/kelai_wangluoanquanfenxishenjixitong.py
 ```
 
 ## 安装依赖
 
-```
+```shell
 pip3 install SecAutoBan
 ```
 

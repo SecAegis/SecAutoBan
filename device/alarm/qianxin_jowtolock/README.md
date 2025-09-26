@@ -2,13 +2,13 @@
 
 ## 下载模块
 
-```
+```shell
 wget https://raw.githubusercontent.com/SecAegis/SecAutoBan/main/device/alarm/qianxin_jowtolock/qianxin_jowtolock.py
 ```
 
 ## 安装依赖
 
-```
+```shell
 pip3 install SecAutoBan
 ```
 
