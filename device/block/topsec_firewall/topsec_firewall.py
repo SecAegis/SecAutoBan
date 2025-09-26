@@ -1,3 +1,4 @@
+import os
 import json
 import base64
 import requests
@@ -113,15 +114,15 @@ def check_exist_ip(session, userMark, token, ip):
 
 if __name__ == "__main__":
     fw_config = {
-        "url": "https://xxx.xxx.xxx.xxx",
-        "username": "xxxx",
-        "password": "xxxx==",
-        "pwdlen": 6
+        "url": os.getenv("fw_url", "https://xxx.xxx.xxx.xxx"),
+        "username": os.getenv("fw_username", "api-admin"),
+        "password": os.getenv("fw_password", "xxx=="),
+        "pwdlen": int(os.getenv("fw_password_len", 6))
     }
     sec_auto_ban = SecAutoBan(
-        server_ip="127.0.0.1",
-        server_port=80,
-        sk="sk-*****",
+        server_ip=os.getenv("server_ip", "127.0.0.1"),
+        server_port=int(os.getenv("server_port", 80)),
+        sk=os.getenv("sk"),
         client_type="block",
         block_ip=block_ip,
         unblock_ip=unblock_ip
