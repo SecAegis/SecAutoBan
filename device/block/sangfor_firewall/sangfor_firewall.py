@@ -1,3 +1,4 @@
+import os
 import requests
 from SecAutoBan import SecAutoBan
 requests.packages.urllib3.disable_warnings()
@@ -102,14 +103,14 @@ def check_exist_ip(token, ip) -> bool:
 
 if __name__ == "__main__":
     fw_config = {
-        "url": "https://xxx.xxx.xxx.xxx",
-        "username": "xxx",
-        "password": "xxx",
+        "url": os.getenv("fw_url", "https://xxx.xxx.xxx.xxx"),
+        "username": os.getenv("fw_username", "api-admin"),
+        "password": os.getenv("fw_password", "xxx"),
     }
     sec_auto_ban = SecAutoBan(
-        server_ip="127.0.0.1",
-        server_port=80,
-        sk="sk-*****",
+        server_ip=os.getenv("server_ip", "127.0.0.1"),
+        server_port=int(os.getenv("server_port", 80)),
+        sk=os.getenv("sk"),
         client_type="block",
         block_ip=block_ip,
         unblock_ip=unblock_ip,
