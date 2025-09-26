@@ -8,6 +8,12 @@ RouterOS封禁模块
 wget https://raw.githubusercontent.com/SecAegis/SecAutoBan/main/device/block/router_os/router_os.py
 ```
 
+## 安装依赖
+
+```
+pip3 install SecAutoBan RouterOS-api
+```
+
 ## 配置RouterOS
 
 ### 开启API
@@ -38,41 +44,22 @@ wget https://raw.githubusercontent.com/SecAegis/SecAutoBan/main/device/block/rou
 
 ![](./img/4.jpg)
 
-## 配置模块
-
-### 安装依赖
-
-```
-pip3 install SecAutoBan RouterOS-api
-```
-
-#### 修改回连核心模块配置
-
-更改脚本第`82`-`84`行
-
-```
-server_ip = "127.0.0.1",
-server_port = 80,
-sk = "sk-xxx",
-```
-
-#### 修改RouterOS配置
-
-更改脚本第`73`-`80`行
-
-```
-routeros_config = {
-    "host": "",  # 与RouterOS连接的IP
-    "port": 8728,  # 默认端口8728，如自定义请修改
-    "username": "admin",  # 用户名
-    "password": "",  # 密码
-    "plaintext_login": True,  # 适用于 RouterOS 6.43 及更高版本
-    "list_name": "sec_auto_ban"  # 与Address Lists name保持一致，正常情况无需修改
-}
-```
-
 ## 运行
 
 ```shell
-python3 router_os.py
+server_ip=127.0.0.1 server_port=80 sk=sk-xxx ros_host=10.0.0.1 ros_port=8728 ros_username=admin ros_password=xxx ros_plaintext_login=true ros_list_name=sec_auto_ban python3 router_os.py
 ```
+
+## 环境变量说明
+
+| 变量名                 | 样例           | 描述                               |
+|---------------------|--------------|----------------------------------|
+| server_ip           | 127.0.0.1    | 平台IP                             |
+| server_port         | 80           | 平台端口                             |
+| sk                  | sk-xxx       | 连接密钥                             |
+| ros_host            | 10.0.0.1     | 与RouterOS连接的IP                   |
+| ros_port            | 8728         | 默认端口8728，如自定义请修改                 |
+| ros_username        | admin        | RouterOS用户名                      |
+| ros_password        | xxx          | RouterOS密码                       |
+| ros_plaintext_login | true         | 适用于 RouterOS 6.43 及更高版本          |
+| ros_list_name       | sec_auto_ban | 与Address Lists name保持一致，正常情况无需修改 |

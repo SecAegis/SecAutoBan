@@ -1,3 +1,4 @@
+import os
 import routeros_api
 from SecAutoBan import SecAutoBan
 
@@ -71,17 +72,17 @@ def check_exist_ip(ip) -> bool:
 
 if __name__ == "__main__":
     routeros_config = {
-        "host": "",
-        "port": 8728,
-        "username": "admin",
-        "password": "",
-        "plaintext_login": True,  # 适用于 RouterOS 6.43 及更高版本
-        "list_name": "sec_auto_ban"
+        "host": os.getenv("ros_host", "10.0.0.1"),
+        "port": int(os.getenv("ros_port", 8728)),
+        "username": os.getenv("ros_username", "admin"),
+        "password": os.getenv("ros_password", "xxx"),
+        "plaintext_login": True if os.getenv("ros_plaintext_login", "true").lower() == "true" else False,
+        "list_name": os.getenv("ros_list_name", "sec_auto_ban")
     }
     sec_auto_ban = SecAutoBan(
-        server_ip="127.0.0.1",
-        server_port=80,
-        sk="sk-*****",
+        server_ip=os.getenv("server_ip", "127.0.0.1"),
+        server_port=int(os.getenv("server_port", 80)),
+        sk=os.getenv("sk"),
         client_type="block",
         block_ip=block_ip,
         unblock_ip=unblock_ip,
