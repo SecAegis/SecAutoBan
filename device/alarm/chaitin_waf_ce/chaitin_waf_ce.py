@@ -1,3 +1,4 @@
+import os
 import time
 import requests
 from SecAutoBan import SecAutoBan
@@ -29,13 +30,13 @@ def alarm_analysis(ws_client):
 
 if __name__ == "__main__":
     chaitin_waf_config = {
-        "url": "https://xxx.xxx.xxx.xxx:9443",
-        "apikey": ""
+        "url": os.getenv("chaitin_waf_url", "https://xxx.xxx.xxx.xxx:9443"),
+        "apikey": os.getenv("chaitin_waf_apikey", "xxx")
     }
     sec_auto_ban = SecAutoBan(
-        server_ip="127.0.0.1",
-        server_port=80,
-        sk="sk-*****",
+        server_ip=os.getenv("server_ip", "127.0.0.1"),
+        server_port=int(os.getenv("server_port", 80)),
+        sk=os.getenv("sk"),
         client_type="alarm",
         alarm_analysis = alarm_analysis
     )
