@@ -1,3 +1,4 @@
+import os
 import sys
 import time
 import signal
@@ -159,15 +160,15 @@ def check_exist_ip(ip) -> bool:
 if __name__ == "__main__":
     check_point_session_id = ""
     check_point_conf = {
-        "url": "https://xxx.xxx.xxx.xxx",
-        "username": "admin",
-        "password": "",
-        "group_name": "sec_auto_ban"
+        "url": os.getenv("check_point_url", "https://xxx.xxx.xxx.xxx"),
+        "username": os.getenv("check_point_username", "admin"),
+        "password": os.getenv("check_point_password"),
+        "group_name": os.getenv("check_point_group", "sec_auto_ban")
     }
     sec_auto_ban = SecAutoBan(
-        server_ip="127.0.0.1",
-        server_port=80,
-        sk="sk-*****",
+        server_ip=os.getenv("server_ip", "127.0.0.1"),
+        server_port=int(os.getenv("server_port", 80)),
+        sk=os.getenv("sk"),
         client_type="block",
         block_ip=block_ip,
         unblock_ip=unblock_ip,

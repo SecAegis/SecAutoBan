@@ -8,6 +8,12 @@ CheckPoint封禁模块
 wget https://raw.githubusercontent.com/SecAegis/SecAutoBan/main/device/block/check_point/check_point.py
 ```
 
+## 安装依赖
+
+```
+pip3 install SecAutoBan requests
+```
+
 ## 配置CheckPoint
 
 ### 开启Management API
@@ -26,45 +32,20 @@ wget https://raw.githubusercontent.com/SecAegis/SecAutoBan/main/device/block/che
 
 ![](./img/3.jpg)
 
-## 配置模块
-
-### 安装依赖
-
-```
-pip3 install SecAutoBan requests
-```
-
-### 修改配置
-
-#### 修改回连核心模块配置
-
-更改脚本第`159`-`161`行
-
-```
-server_ip = "127.0.0.1",
-server_port = 80,
-sk = "sk-xxx",
-```
-
-#### 修改与CheckPoint连接的地址
-
-更改脚本第`153`行
-
-```
-"url": "http://xxx.xxx.xxx.xxx",
-```
-
-#### 填写CheckPoint用户名密码
-
-更改脚本第`154`-`155`行
-
-```
-"username": "admin",
-"password": "",
-```
-
 ## 运行
 
 ```shell
-python3 check_point.py
+server_ip=127.0.0.1 server_port=80 sk=sk-xxx check_point_url=http://xxx.xxx.xxx.xxx check_point_username=admin check_point_password=xxx check_point_group=sec_auto_ban python3 check_point.py
 ```
+
+## 环境变量说明
+
+| 变量名                  | 样例                     | 描述                |
+|----------------------|------------------------|-------------------|
+| server_ip            | 127.0.0.1              | 平台IP              |
+| server_port          | 80                     | 平台端口              |
+| sk                   | sk-xxx                 | 连接密钥              |
+| check_point_url      | http://xxx.xxx.xxx.xxx | 连接 check point 网址 |
+| check_point_username | admin                  | check point 用户名   |
+| check_point_password | -                      | check point 密码    |
+| check_point_group    | sec_auto_ban           | check point 分组    |
