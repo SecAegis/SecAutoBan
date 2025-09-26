@@ -11,7 +11,7 @@ def login() -> str:
     }
     r = requests.post(url, json=post_data, timeout=60, verify=False)
     cookies = {
-        "PHPSESSID" : r.cookies.get("PHPSESSID"),
+        "__s_sessionid__" : r.cookies.get("__s_sessionid__"),
         "token": r.json()["result"]["token"]
     }
     return cookies

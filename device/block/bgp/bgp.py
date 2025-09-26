@@ -1,3 +1,4 @@
+import os
 import ipaddress
 import subprocess
 from SecAutoBan import SecAutoBan
@@ -19,18 +20,18 @@ def block_ip(cidr):
     if check_cidr_type(cidr) == "IPv4":
         if cidr == "0.0.0.0/0":
             return
-        subprocess.run(['gobgp', 'global', "rib", "add", cidr, "nexthop", nexthop_v4])
+        subprocess.Popen(['gobgp', 'global', "rib", "add", cidr, "nexthop", nexthop_v4])
     elif check_cidr_type(cidr) == "IPv6":
         if cidr == "::/0":
             return
-        subprocess.run(['gobgp', 'global', "rib", "add", cidr, "-a", "ipv6", "nexthop", nexthop_v6])
+        subprocess.Popen(['gobgp', 'global', "rib", "add", cidr, "-a", "ipv6", "nexthop", nexthop_v6])
 
 
 def unblock_ip(cidr):
     if check_cidr_type(cidr) == "IPv4":
-        subprocess.run(['gobgp', 'global', "rib", "del", cidr])
+        subprocess.Popen(['gobgp', 'global', "rib", "del", cidr])
     elif check_cidr_type(cidr) == "IPv6":
-        subprocess.run(['gobgp', 'global', "rib", "del", cidr, "-a", "ipv6"])
+        subprocess.Popen(['gobgp', 'global', "rib", "del", cidr, "-a", "ipv6"])
 
 
 def get_all_block_ip() -> list:
@@ -55,18 +56,22 @@ def get_all_block_ip() -> list:
 def check_exist_ip(ip) -> bool:
     return ip in get_all_block_ip()
 
+def login_success_callback():
+    sec_auto_ban.send_sync()
+
 
 if __name__ == "__main__":
-    nexthop_v4 = "192.0.0.253" # ipv4黑洞地址
-    nexthop_v6 = "fc00::ac11:1/128" # ipv6黑洞地址
+    nexthop_v4 = os.getenv("nexthop_v4", "192.0.0.253")
+    nexthop_v6 = os.getenv("nexthop_v6", "fc00::ac11:1/128")
     sec_auto_ban = SecAutoBan(
-        server_ip="127.0.0.1",
-        server_port=80,
-        sk="sk-*****",
+        server_ip=os.getenv("server_ip", "127.0.0.1"),
+        server_port=int(os.getenv("server_port", 80)),
+        sk=os.getenv("sk"),
         client_type="block",
         block_ip=block_ip,
         unblock_ip=unblock_ip,
         get_all_block_ip=get_all_block_ip,
+        login_success_callback=login_success_callback,
         enable_cidr=True
     )
     sec_auto_ban.run()
