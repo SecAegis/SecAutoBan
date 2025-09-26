@@ -5,10 +5,10 @@ ARG TARGETARCH
 RUN curl -L -o gobgp.tar.gz $(curl -s https://api.github.com/repos/osrg/gobgp/releases/latest | grep browser_download_url | cut -d'"' -f4 | grep ${TARGETARCH})
 RUN mkdir /gobgp && tar -xzf gobgp.tar.gz -C /gobgp gobgp gobgpd
 
-FROM ubuntu
+FROM alpine
 COPY --from=download /SecAutoBan/device/alarm /device/alarm
 COPY --from=download /SecAutoBan/device/block /device/block
 COPY --from=download /gobgp/gobgp /usr/bin/gobgp
 COPY --from=download /gobgp/gobgpd /usr/bin/gobgpd
-RUN apt update && apt install --no-install-recommends -y python3-pip
+RUN apk update && apk add --no-cache py3-pip
 RUN pip3 install --break-system-packages SecAutoBan requests RouterOS-api scapy

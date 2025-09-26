@@ -36,7 +36,7 @@ tar -xzf gobgp.tar.gz -C /usr/bin gobgp gobgpd && rm gobgp.tar.gz
 ## 运行
 
 ```shell
-server_ip=127.0.0.1 server_port=80 sk=sk-xxx nexthop_v4=192.0.0.253 nexthop_v6=fc00::ac11:1/128 as=65551 local_ip=10.0.0.2 neighbor_ip=10.0.0.1 bash run.sh
+server_ip=127.0.0.1 server_port=80 sk=sk-xxx nexthop_v4=192.0.0.253 nexthop_v6=fc00::ac11:1/128 as=65551 local_ip=10.0.0.2 neighbor_ip=10.0.0.1 sh run.sh
 ```
 
 ## 环境变量说明
