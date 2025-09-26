@@ -10,5 +10,5 @@ COPY --from=download /SecAutoBan/device/alarm /device/alarm
 COPY --from=download /SecAutoBan/device/block /device/block
 COPY --from=download /gobgp/gobgp /usr/bin/gobgp
 COPY --from=download /gobgp/gobgpd /usr/bin/gobgpd
-RUN apk update && apk add --no-cache py3-pip
+RUN apk add --no-cache py3-pip
 RUN pip3 install --no-cache-dir --break-system-packages SecAutoBan requests RouterOS-api scapy
