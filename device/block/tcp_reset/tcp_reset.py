@@ -1,3 +1,4 @@
+import os
 import random
 import sqlite3
 from SecAutoBan import SecAutoBan
@@ -105,14 +106,14 @@ def run_sniff():
 
 
 if __name__ == "__main__":
-    sniff_iface = "eth0"
-    reset_iface = "eth1"
+    sniff_iface = os.getenv("sniff_iface", "eth0")
+    reset_iface = os.getenv("reset_iface", "eth1")
     db_name = "block_ip.db"
     ban_ip_list = []
     sec_auto_ban = SecAutoBan(
-        server_ip="127.0.0.1",
-        server_port=80,
-        sk="sk-*****",
+        server_ip=os.getenv("server_ip", "127.0.0.1"),
+        server_port=int(os.getenv("server_port", 80)),
+        sk=os.getenv("sk"),
         client_type="block",
         block_ip=block_ip,
         unblock_ip=unblock_ip,
