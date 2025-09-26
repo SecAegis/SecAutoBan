@@ -8,25 +8,12 @@
 wget https://raw.githubusercontent.com/SecAegis/SecAutoBan/main/device/block/workweixin_robot/workweixin_robot.py
 ```
 
-## 配置说明
-
-### 安装依赖
+## 安装依赖
 
 ```
 pip3 install SecAutoBan
 ```
 
-### 配置模块
-
-#### 修改回连核心模块配置
-
-更改脚本第`49`-`51`行
-
-```
-server_ip = "127.0.0.1",
-server_port = 80,
-sk = "sk-xxx",
-```
 
 #### 修改企业微信机器人配置
 
@@ -34,14 +21,18 @@ sk = "sk-xxx",
 
 ![](./img/workweixin.jpg)
 
-更改脚本第`46`行，修改hook_key：
-
-```
-webhook = "https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key="
-hook_key = "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"
-```
 ## 运行
 
 ```shell
-python3 workweixin_robot.py
+server_ip=127.0.0.1 server_port=80 sk=sk-xxx webhook="https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=" hook_key=aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa python3 workweixin_robot.py
 ```
+
+## 环境变量说明
+
+| 变量名         | 样例                                                    | 描述        |
+|-------------|-------------------------------------------------------|-----------|
+| server_ip   | 127.0.0.1                                             | 平台IP      |
+| server_port | 80                                                    | 平台端口      |
+| sk          | sk-xxx                                                | 连接密钥      |
+| webhook     | https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key= | Webhook地址 |
+| hook_key    | aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa                  | hook key  |

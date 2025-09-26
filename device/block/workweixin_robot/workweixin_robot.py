@@ -1,3 +1,4 @@
+import os
 import time
 import requests
 from SecAutoBan import SecAutoBan
@@ -41,13 +42,13 @@ def check_exist_ip(ip) -> bool:
 
 
 if __name__ == "__main__":
-    webhook = "https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key="
-    hook_key = "aaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaa"
+    webhook = os.getenv("webhook", "https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=")
+    hook_key = os.getenv("hook_key", "aaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaa")
     ban_ip_list = []
     sec_auto_ban = SecAutoBan(
-        server_ip="127.0.0.1",
-        server_port=80,
-        sk="sk-*****",
+        server_ip=os.getenv("server_ip", "127.0.0.1"),
+        server_port=int(os.getenv("server_port", 80)),
+        sk=os.getenv("sk"),
         client_type="block",
         block_ip=block_ip,
         unblock_ip=unblock_ip,
