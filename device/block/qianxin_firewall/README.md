@@ -10,6 +10,12 @@
 wget https://raw.githubusercontent.com/SecAegis/SecAutoBan/main/device/block/qianxin_firewall/qianxin_firewall.py
 ```
 
+## 安装依赖
+
+```
+pip3 install SecAutoBan requests
+```
+
 ## 配置奇安信防火墙
 
 ### 开启RESTful API
@@ -22,25 +28,7 @@ wget https://raw.githubusercontent.com/SecAegis/SecAutoBan/main/device/block/qia
 
 ![](./img/1.jpg)
 
-## 配置模块
 
-### 安装依赖
-
-```
-pip3 install SecAutoBan requests
-```
-
-### 修改配置
-
-#### 修改回连核心模块配置
-
-更改脚本第`123`-`125`行
-
-```
-server_ip = "127.0.0.1",
-server_port = 80,
-sk = "sk-xxx",
-```
 
 #### 修改与奇安信防火墙连接的地址
 
@@ -62,5 +50,16 @@ sk = "sk-xxx",
 ## 运行
 
 ```shell
-python3 qianxin_firewall.py
+server_ip=127.0.0.1 server_port=80 sk=sk-xxx fw_url=https://xxx.xxx.xxx.xxx:8443 fw_username=api-admin fw_password=xxx python3 qianxin_firewall.py
 ```
+
+## 环境变量说明
+
+| 变量名         | 样例                           | 描述        |
+|-------------|------------------------------|-----------|
+| server_ip   | 127.0.0.1                    | 平台IP      |
+| server_port | 80                           | 平台端口      |
+| sk          | sk-xxx                       | 连接密钥      |
+| fw_url      | https://xxx.xxx.xxx.xxx:8443 | 连接防火墙 URL |
+| fw_username | api-admin                    | 防火墙用户名    |
+| fw_password | xxx                          | 防火墙密码     |
