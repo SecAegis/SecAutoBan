@@ -6,13 +6,13 @@
 
 ## 下载模块
 
-```
+```shell
 wget https://raw.githubusercontent.com/SecAegis/SecAutoBan/main/device/block/qianxin_firewall/qianxin_firewall.py
 ```
 
 ## 安装依赖
 
-```
+```shell
 pip3 install SecAutoBan requests
 ```
 
@@ -27,25 +27,6 @@ pip3 install SecAutoBan requests
 通过`系统配置`-`设备管理`-`管理账号`添加账号，角色选择`RESTful API管理员`
 
 ![](./img/1.jpg)
-
-
-
-#### 修改与奇安信防火墙连接的地址
-
-更改脚本第`118`行
-
-```
-"url": "http://xxx.xxx.xxx.xxx",
-```
-
-#### 填写奇安信防火墙用户名密码
-
-更改脚本第`119`-`120`行
-
-```
-"username": "admin",
-"password": "",
-```
 
 ## 运行
 

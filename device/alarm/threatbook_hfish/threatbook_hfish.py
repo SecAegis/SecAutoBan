@@ -1,3 +1,4 @@
+import os
 import time
 import requests
 import math
@@ -7,7 +8,6 @@ requests.packages.urllib3.disable_warnings()
 
 def alarm_analysis(ws_client):
     while True:
-        time.sleep(30) # 每隔30秒获取一次蜜罐数据,可根据实际情况调整
         post_data = {
             "start_time": 0,
             "end_time": 0,
@@ -53,17 +53,19 @@ def alarm_analysis(ws_client):
             continue
         for i in r.json()["data"]["detail_list"]:
             ws_client.send_alarm(i["attack_ip"], "蜜罐", i["service_name"])
+        time.sleep(hfish_config["refresh_time"])
 
 
 if __name__ == "__main__":
     hfish_config = {
-        "url": "https://xxx.xxx.xxx.xxx:4433",
-        "api_key": "xxx"
+        "url": os.getenv("hfish_url", "https://xxx.xxx.xxx.xxx:4433"),
+        "api_key": os.getenv("hfish_api_key", "xxx"),
+        "refresh_time": int(os.getenv("hfish_refresh_time", 30))
     }
     sec_auto_ban = SecAutoBan(
-        server_ip="127.0.0.1",
-        server_port=80,
-        sk="sk-*****",
+        server_ip=os.getenv("server_ip", "127.0.0.1"),
+        server_port=int(os.getenv("server_port", 80)),
+        sk=os.getenv("sk"),
         client_type="alarm",
         alarm_analysis = alarm_analysis
     )

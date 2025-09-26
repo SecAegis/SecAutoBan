@@ -1,3 +1,4 @@
+import os
 import socketserver
 from SecAutoBan import SecAutoBan
 
@@ -23,11 +24,11 @@ def alarm_analysis(ws_client):
 
 
 if __name__ == "__main__":
-    listen_syslog_udp_port = 567
+    listen_syslog_udp_port = int(os.getenv("listen_port", 514))
     sec_auto_ban = SecAutoBan(
-        server_ip="127.0.0.1",
-        server_port=80,
-        sk="sk-*****",
+        server_ip=os.getenv("server_ip", "127.0.0.1"),
+        server_port=int(os.getenv("server_port", 80)),
+        sk=os.getenv("sk"),
         client_type="alarm",
         alarm_analysis = alarm_analysis
     )

@@ -6,13 +6,13 @@
 
 ## 下载模块
 
-```
+```shell
 wget https://raw.githubusercontent.com/SecAegis/SecAutoBan/main/device/alarm/chaitin_waf_ce/chaitin_waf_ce.py
 ```
 
 ## 安装依赖
 
-```
+```shell
 pip3 install SecAutoBan requests
 ```
 

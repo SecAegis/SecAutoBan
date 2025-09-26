@@ -1,3 +1,4 @@
+import os
 import socket
 import socketserver
 from threading import Lock, Timer
@@ -41,7 +42,7 @@ class SyslogUDPHandler(socketserver.DatagramRequestHandler):
 if __name__ == "__main__":
     message_count = {}
     message_count_lock = Lock()
-    listen_syslog_udp_port = 514
+    listen_syslog_udp_port = int(os.getenv("listen_port", 514))
     with socketserver.ThreadingUDPServer(("0.0.0.0", listen_syslog_udp_port), lambda *args: SyslogUDPHandler(*args)) as server:
         print("[+] 监听SysLog端口: " + str(listen_syslog_udp_port) + "/UDP")
         reset_count()

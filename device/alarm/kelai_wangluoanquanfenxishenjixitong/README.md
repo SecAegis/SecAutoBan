@@ -6,6 +6,12 @@
 wget https://raw.githubusercontent.com/SecAegis/SecAutoBan/main/device/alarm/kelai_wangluoanquanfenxishenjixitong/kelai_wangluoanquanfenxishenjixitong.py
 ```
 
+## 安装依赖
+
+```
+pip3 install SecAutoBan
+```
+
 ## 配置说明
 
 ### 配置科来网络安全分析审计系统
@@ -22,34 +28,17 @@ wget https://raw.githubusercontent.com/SecAegis/SecAutoBan/main/device/alarm/kel
 
 ![](./img/3.jpg)
 
-### 安装依赖
-
-```
-pip3 install SecAutoBan ipaddress
-```
-
-### 配置模块
-
-#### 修改回连核心模块配置
-
-更改脚本第`45`-`47`行
-
-```
-server_ip = "127.0.0.1",
-server_port = 80,
-sk = "sk-xxx",
-```
-
-#### 配置syslog监听地址
-
-更改脚本第`42`行，请与天眼SYSLOG中配置的端口一致
-
-```
-listen_syslog_udp_port = 567
-```
-
 ## 运行
 
 ```shell
-python3 kelai_wangluoanquanfenxishenjixitong.py
+server_ip=127.0.0.1 server_port=80 sk=sk-xxx listen_port=514 python3 kelai_wangluoanquanfenxishenjixitong.py
 ```
+
+## 环境变量说明
+
+| 变量名         | 样例        | 描述         |
+|-------------|-----------|------------|
+| server_ip   | 127.0.0.1 | 平台IP       |
+| server_port | 80        | 平台端口       |
+| sk          | sk-xxx    | 连接密钥       |
+| listen_port | 514       | 监听Syslog端口 |

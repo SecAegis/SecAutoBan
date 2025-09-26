@@ -6,6 +6,12 @@
 wget https://raw.githubusercontent.com/SecAegis/SecAutoBan/main/device/alarm/qianxin_skyeye/qianxin_skyeye.py
 ```
 
+## 安装依赖
+
+```
+pip3 install SecAutoBan
+```
+
 ## 配置说明
 
 ### 配置天眼
@@ -28,34 +34,17 @@ wget https://raw.githubusercontent.com/SecAegis/SecAutoBan/main/device/alarm/qia
 
 配置完成后依次点击保存即可
 
-### 安装依赖
-
-```
-pip3 install SecAutoBan ipaddress
-```
-
-### 配置模块
-
-#### 修改回连核心模块配置
-
-更改脚本第`43`-`45`行
-
-```
-server_ip = "127.0.0.1",
-server_port = 80,
-sk = "sk-xxx",
-```
-
-#### 配置syslog监听地址
-
-更改脚本第`40`行，请与天眼SYSLOG中配置的端口一致
-
-```
-listen_syslog_udp_port = 567
-```
-
 ## 运行
 
 ```shell
-python3 qianxin_skyeye.py
+server_ip=127.0.0.1 server_port=80 sk=sk-xxx listen_port=514 python3 qianxin_skyeye.py
 ```
+
+## 环境变量说明
+
+| 变量名         | 样例        | 描述         |
+|-------------|-----------|------------|
+| server_ip   | 127.0.0.1 | 平台IP       |
+| server_port | 80        | 平台端口       |
+| sk          | sk-xxx    | 连接密钥       |
+| listen_port | 514       | 监听Syslog端口 |

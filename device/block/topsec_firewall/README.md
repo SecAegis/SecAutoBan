@@ -4,13 +4,13 @@
 
 ## 下载模块
 
-```
+```shell
 wget https://raw.githubusercontent.com/SecAegis/SecAutoBan/main/device/block/topsec_firewall/topsec_firewall.py
 ```
 
 ## 安装依赖
 
-```
+```shell
 pip3 install SecAutoBan requests
 ```
 

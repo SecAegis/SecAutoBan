@@ -2,7 +2,7 @@
 
 安装以下脚本依赖
 
-```
+```shell
 pip3 install SecAutoBan
 ```
 
@@ -14,7 +14,7 @@ pip3 install SecAutoBan
 
 共需自行实现`5-26`行的4个函数
 
-```
+```python
 # 实现设备封禁函数
 def block_ip(ip):
     if check_exist_ip(ip):  # 防止重复封禁
@@ -46,7 +46,7 @@ def check_exist_ip(ip) -> bool:  # 方法用于防止重复封禁单个IP
 
 共需自行实现`5-11`行的2个函数
 
-```
+```python
 # 实现设备封禁函数
 def block_ip(ip):
     pass

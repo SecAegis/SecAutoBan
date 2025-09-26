@@ -1,13 +1,7 @@
+import os
 import json
-import ipaddress
 import socketserver
 from SecAutoBan import SecAutoBan
-
-
-def is_lan(ip: str) -> bool:
-    if bypass_lan:
-        return ipaddress.ip_address(ip).is_private
-    return False
 
 
 class SyslogUDPHandler(socketserver.DatagramRequestHandler):
@@ -25,10 +19,7 @@ class SyslogUDPHandler(socketserver.DatagramRequestHandler):
         sip = msg["websec_attack_ip"]
         if sip == "":
             return
-        if is_lan(sip):
-            return
         self.ws_client.send_alarm(sip, msg["websec_victim_ip"], msg["alarm_name"])
-
 
 
 def alarm_analysis(ws_client):
@@ -38,12 +29,11 @@ def alarm_analysis(ws_client):
 
 
 if __name__ == "__main__":
-    listen_syslog_udp_port = 567
-    bypass_lan = True  # 过滤内网攻击，True 开启 | False 关闭
+    listen_syslog_udp_port = int(os.getenv("listen_port", 514))
     sec_auto_ban = SecAutoBan(
-        server_ip="127.0.0.1",
-        server_port=80,
-        sk="sk-*****",
+        server_ip=os.getenv("server_ip", "127.0.0.1"),
+        server_port=int(os.getenv("server_port", 80)),
+        sk=os.getenv("sk"),
         client_type="alarm",
         alarm_analysis = alarm_analysis
     )

@@ -4,13 +4,13 @@ RouterOS封禁模块
 
 ## 下载模块
 
-```
+```shell
 wget https://raw.githubusercontent.com/SecAegis/SecAutoBan/main/device/block/router_os/router_os.py
 ```
 
 ## 安装依赖
 
-```
+```shell
 pip3 install SecAutoBan RouterOS-api
 ```
 

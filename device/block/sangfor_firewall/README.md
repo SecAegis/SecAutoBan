@@ -4,36 +4,19 @@
 
 ## 下载模块
 
-```
+```shell
 wget https://raw.githubusercontent.com/SecAegis/SecAutoBan/main/device/block/sangfor_firewall/sangfor_firewall.py
 ```
 
 ## 安装依赖
 
-```
+```shell
 pip3 install SecAutoBan requests
 ```
 
 ## 配置深信服防火墙
 
 添加API账号
-
-#### 修改与深信服防火墙连接的地址
-
-更改脚本第`103`行
-
-```
-"url": "http://xxx.xxx.xxx.xxx",
-```
-
-#### 填写深信服防火墙用户名密码
-
-更改脚本第`104`-`105`行
-
-```
-"username": "xxx",
-"password": "xxx",
-```
 
 ## 运行
 

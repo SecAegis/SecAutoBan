@@ -4,13 +4,13 @@
 
 ## 下载模块
 
-```
+```shell
 wget https://raw.githubusercontent.com/SecAegis/SecAutoBan/main/device/block/workweixin_robot/workweixin_robot.py
 ```
 
 ## 安装依赖
 
-```
+```shell
 pip3 install SecAutoBan
 ```
 

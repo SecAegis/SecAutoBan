@@ -32,25 +32,6 @@ pip3 install SecAutoBan requests
 
 ![](./img/2.jpg)
 
-
-
-#### 修改与OPNsense连接的地址
-
-更改脚本第`51`行
-
-```
-"url": "http://xxx.xxx.xxx.xxx",
-```
-
-#### 修改刚刚获取的OPNsense API
-
-更改脚本第`52`-`53`行
-
-```
-"api_key": "xxx",
-"api_secret": "xxx",
-```
-
 ## 运行
 
 ```shell

@@ -6,12 +6,12 @@
 
 ## 下载模块
 
-```
+```shell
 wget https://raw.githubusercontent.com/SecAegis/SecAutoBan/main/device/block/tcp_reset/tcp_reset.py
 ```
 ## 安装依赖
 
-```
+```shell
 pip3 install SecAutoBan scapy
 ```
 
