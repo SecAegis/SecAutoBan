@@ -4,8 +4,14 @@ OPNsense封禁模块
 
 ## 下载模块
 
-```
+```shell
 wget https://raw.githubusercontent.com/SecAegis/SecAutoBan/main/device/block/opnsense/opnsense.py
+```
+
+## 安装依赖
+
+```shell
+pip3 install SecAutoBan requests
 ```
 
 ## 配置OPNsense
@@ -26,25 +32,7 @@ wget https://raw.githubusercontent.com/SecAegis/SecAutoBan/main/device/block/opn
 
 ![](./img/2.jpg)
 
-## 配置模块
 
-### 安装依赖
-
-```
-pip3 install SecAutoBan requests
-```
-
-### 修改配置
-
-#### 修改回连核心模块配置
-
-更改脚本第`56`-`58`行
-
-```
-server_ip = "127.0.0.1",
-server_port = 80,
-sk = "sk-xxx",
-```
 
 #### 修改与OPNsense连接的地址
 
@@ -66,5 +54,17 @@ sk = "sk-xxx",
 ## 运行
 
 ```shell
-python3 opnsense.py
+server_ip=127.0.0.1 server_port=80 sk=sk-xxx opensense_url=http://xxx.xxx.xxx.xxx opensense_api_key=xxx opensense_api_secret=xxx opensense_alias_name=sec_auto_ban python3 opnsense.py
 ```
+
+## 环境变量说明
+
+| 变量名                  | 样例                     | 描述               |
+|----------------------|------------------------|------------------|
+| server_ip            | 127.0.0.1              | 平台IP             |
+| server_port          | 80                     | 平台端口             |
+| sk                   | sk-xxx                 | 连接密钥             |
+| opensense_url        | http://xxx.xxx.xxx.xxx | 连接 OPNsense URL  |
+| opensense_api_key    | xxx                    | OPNsense API Key |
+| opensense_api_secret | xxx                    | OPNsense API 密钥  |
+| opensense_alias_name | sec_auto_ban           | 防火墙别名            |

@@ -1,3 +1,4 @@
+import os
 from SecAutoBan import SecAutoBan
 
 # 实现设备封禁函数
@@ -32,9 +33,9 @@ def login_success_callback():
 if __name__ == "__main__":
     init = 0
     sec_auto_ban = SecAutoBan(
-        server_ip="127.0.0.1",
-        server_port=80,
-        sk="sk-*****",
+        server_ip=os.getenv("server_ip", "127.0.0.1"),
+        server_port=int(os.getenv("server_port", 80)),
+        sk=os.getenv("sk"),
         client_type="block",
         block_ip=block_ip,
         unblock_ip=unblock_ip,

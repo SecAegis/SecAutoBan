@@ -1,3 +1,4 @@
+import os
 import requests
 from SecAutoBan import SecAutoBan
 
@@ -48,15 +49,15 @@ def check_exist_ip(ip) -> bool:
 
 if __name__ == "__main__":
     opnsense_config = {
-        "url": "http://xxx.xxx.xxx.xxx",
-        "api_key": "xxx",
-        "api_secret": "xxx",
-        "alias_name": "sec_auto_ban"
+        "url": os.getenv("opensense_url", "http://xxx.xxx.xxx.xxx"),
+        "api_key": os.getenv("opensense_api_key", "xxx"),
+        "api_secret": os.getenv("opensense_api_secret", "xxx"),
+        "alias_name": os.getenv("opensense_alias_name", "sec_auto_ban")
     }
     sec_auto_ban = SecAutoBan(
-        server_ip="127.0.0.1",
-        server_port=80,
-        sk="sk-*****",
+        server_ip=os.getenv("server_ip", "127.0.0.1"),
+        server_port=int(os.getenv("server_port", 80)),
+        sk=os.getenv("sk"),
         client_type="block",
         block_ip=block_ip,
         unblock_ip=unblock_ip,
