@@ -33,6 +33,8 @@ services:
       mq_url: nats://sec_auto_ban:${mq_password}@mq:4222
     networks:
       - sec_auto_ban
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
     ports:
       - 80:80
 

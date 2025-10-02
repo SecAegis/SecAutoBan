@@ -18,7 +18,7 @@ pip3 install SecAutoBan scapy
 ## 运行
 
 ```shell
-python3 tcp_reset.py
+server_ip=127.0.0.1 server_port=80 sk=sk-xxx sniff_iface=eth0 reset_iface=eth1 python3 tcp_reset.py
 ```
 
 ## 环境变量说明
