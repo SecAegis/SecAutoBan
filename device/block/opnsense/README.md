@@ -1,6 +1,6 @@
 # OPNsense
 
-OPNsense封禁模块
+OPNsense封禁
 
 ## 下载模块
 
