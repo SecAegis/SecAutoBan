@@ -10,7 +10,7 @@ services:
       POSTGRES_PASSWORD: ${db_password}
       POSTGRES_DB: sec_auto_ban
     volumes:
-      - ./data/postgres:/var/lib/postgresql/data
+      - ./data/postgres:/var/lib/postgresql
     networks:
       - sec_auto_ban
   mq:
