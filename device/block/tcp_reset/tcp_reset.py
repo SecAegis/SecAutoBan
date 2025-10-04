@@ -25,7 +25,7 @@ def send_reset(iface):
     def f(p):
         src_ip, dst_ip, is_ipv4 = get_ip(p)
         tcp = p[TCP]
-        sec_auto_ban.print("Block IP: " + src_ip + ":" + str(tcp.sport) + " --> " + dst_ip + ":" + str(tcp.dport))
+        sec_auto_ban.print("[*] Reset IP: " + src_ip + ":" + str(tcp.sport) + " --> " + dst_ip + ":" + str(tcp.dport))
         seglen = len(tcp.payload)
         if tcp.flags & 0x01:
             seglen += 1
