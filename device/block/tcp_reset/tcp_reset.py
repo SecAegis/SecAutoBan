@@ -1,9 +1,9 @@
 import os
 import sqlite3
 from SecAutoBan import SecAutoBan
-from scapy.all import sniff, sendp, Ether
 from scapy.layers.inet6 import IPv6
 from scapy.layers.inet import TCP, IP
+from scapy.all import sniff, sendp, Ether
 from multiprocessing.pool import ThreadPool
 
 
