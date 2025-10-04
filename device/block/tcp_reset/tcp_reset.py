@@ -2,7 +2,7 @@ import os
 import random
 import sqlite3
 from SecAutoBan import SecAutoBan
-from scapy.all import sniff, send, conf
+from scapy.all import sniff, send
 from scapy.layers.inet6 import IPv6
 from scapy.layers.inet import TCP, IP
 from multiprocessing.pool import ThreadPool
@@ -20,22 +20,21 @@ def get_ip(p):
     return src_ip, dst_ip
 
 
-def send_reset(iface, seq_jitter=0, default_window_size=2052):
+def send_reset(iface):
     def f(p):
         src_ip, dst_ip = get_ip(p)
         src_port = p[TCP].sport
         dst_port = p[TCP].dport
-        seq = p[TCP].seq
         ack = p[TCP].ack
-        jitter = random.randint(max(-seq_jitter, -seq), seq_jitter)
-        rst_seq = ack + jitter
+        if "S" in p[TCP].flags:
+            return
         try:
             if p.haslayer(IP):
-                p = IP(src=dst_ip, dst=src_ip) / TCP(sport=dst_port, dport=src_port, flags="R", window=default_window_size, seq=rst_seq)
+                p = IP(src=dst_ip, dst=src_ip) / TCP(sport=dst_port, dport=src_port, flags="R", window=2052, seq=ack)
                 send(p, verbose=0, iface=iface)
                 return
             if p.haslayer(IPv6):
-                p = IPv6(src=dst_ip, dst=src_ip) / TCP(sport=dst_port, dport=src_port, flags="R", window=default_window_size, seq=rst_seq)
+                p = IPv6(src=dst_ip, dst=src_ip) / TCP(sport=dst_port, dport=src_port, flags="R", window=2052, seq=ack)
                 send(p, verbose=0, iface=iface)
                 return
         except Exception as e:
@@ -106,7 +105,6 @@ def run_sniff():
 
 
 if __name__ == "__main__":
-    conf.use_pcap = True
     sniff_iface = os.getenv("sniff_iface", "eth0")
     reset_iface = os.getenv("reset_iface", "eth1")
     db_name = "block_ip.db"
