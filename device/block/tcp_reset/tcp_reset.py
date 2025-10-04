@@ -1,5 +1,4 @@
 import os
-import random
 import sqlite3
 from SecAutoBan import SecAutoBan
 from scapy.all import sniff, send
@@ -26,8 +25,6 @@ def send_reset(iface):
         src_port = p[TCP].sport
         dst_port = p[TCP].dport
         ack = p[TCP].ack
-        if "S" in p[TCP].flags:
-            return
         try:
             if p.haslayer(IP):
                 p = IP(src=dst_ip, dst=src_ip) / TCP(sport=dst_port, dport=src_port, flags="R", window=2052, seq=ack)
@@ -46,6 +43,8 @@ def is_filter():
     def f(p):
         if not p.haslayer(TCP):
             return False
+        if "S" in p[TCP].flags:
+            return
         src_ip, dst_ip = get_ip(p)
         return src_ip in ban_ip_list or dst_ip in ban_ip_list
     return f
@@ -100,7 +99,8 @@ def run_sniff():
     sniff(
         iface=sniff_iface,
         prn=send_reset(reset_iface),
-        lfilter=is_filter()
+        lfilter=is_filter(),
+        store=False
     )
 
 
