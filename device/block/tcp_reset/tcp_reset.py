@@ -1,7 +1,7 @@
 import os
 import sqlite3
 from SecAutoBan import SecAutoBan
-from scapy.all import sniff, send
+from scapy.all import sniff, sendp, Ether
 from scapy.layers.inet6 import IPv6
 from scapy.layers.inet import TCP, IP
 from multiprocessing.pool import ThreadPool
@@ -10,42 +10,52 @@ from multiprocessing.pool import ThreadPool
 def get_ip(p):
     src_ip = ""
     dst_ip = ""
+    is_ipv4 = True
     if p.haslayer(IP):
         src_ip = p[IP].src
         dst_ip = p[IP].dst
     if p.haslayer(IPv6):
+        is_ipv4 = False
         src_ip = p[IPv6].src
         dst_ip = p[IPv6].dst
-    return src_ip, dst_ip
+    return src_ip, dst_ip, is_ipv4
 
 
 def send_reset(iface):
     def f(p):
-        src_ip, dst_ip = get_ip(p)
-        src_port = p[TCP].sport
-        dst_port = p[TCP].dport
-        ack = p[TCP].ack
-        try:
-            if p.haslayer(IP):
-                p = IP(src=dst_ip, dst=src_ip) / TCP(sport=dst_port, dport=src_port, flags="R", window=2052, seq=ack)
-                send(p, verbose=0, iface=iface)
-                return
-            if p.haslayer(IPv6):
-                p = IPv6(src=dst_ip, dst=src_ip) / TCP(sport=dst_port, dport=src_port, flags="R", window=2052, seq=ack)
-                send(p, verbose=0, iface=iface)
-                return
-        except Exception as e:
-            pass
+        src_ip, dst_ip, is_ipv4 = get_ip(p)
+        tcp = p[TCP]
+        sec_auto_ban.print("Block IP: " + src_ip + ":" + str(tcp.sport) + " --> " + dst_ip + ":" + str(tcp.dport))
+        seglen = len(tcp.payload)
+        if tcp.flags & 0x01:
+            seglen += 1
+        if tcp.flags & 0x02:
+            seglen += 1
+        if tcp.flags & 0x10:
+            seq = tcp.ack
+            flags = "R"
+            rst_l4_kwargs = {"seq": seq}
+        else:
+            ack = (tcp.seq + seglen) & 0xFFFFFFFF
+            flags = "RA"
+            rst_l4_kwargs = {"ack": ack}
+        eth = p[Ether]
+        if is_ipv4:
+            ip_layer = IP(src=dst_ip, dst=src_ip)
+        else:
+            ip_layer = IPv6(src=dst_ip, dst=src_ip)
+        tcp_layer = TCP(sport=tcp.dport, dport=tcp.sport, flags=flags, **rst_l4_kwargs)
+        rst_pkt = Ether(src=eth.dst, dst=eth.src) / ip_layer / tcp_layer
+        sendp(rst_pkt, iface=iface, verbose=0)
+        return None
     return f
 
 
 def is_filter():
     def f(p):
-        if not p.haslayer(TCP):
+        if p[TCP].flags & 0x04:
             return False
-        if "S" in p[TCP].flags:
-            return
-        src_ip, dst_ip = get_ip(p)
+        src_ip, dst_ip , _ = get_ip(p)
         return src_ip in ban_ip_list or dst_ip in ban_ip_list
     return f
 
@@ -99,6 +109,7 @@ def run_sniff():
     sniff(
         iface=sniff_iface,
         prn=send_reset(reset_iface),
+        filter="tcp",
         lfilter=is_filter(),
         store=False
     )
