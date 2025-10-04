@@ -2,7 +2,7 @@ import os
 import random
 import sqlite3
 from SecAutoBan import SecAutoBan
-from scapy.all import sniff, send
+from scapy.all import sniff, send, conf
 from scapy.layers.inet6 import IPv6
 from scapy.layers.inet import TCP, IP
 from multiprocessing.pool import ThreadPool
@@ -106,6 +106,7 @@ def run_sniff():
 
 
 if __name__ == "__main__":
+    conf.use_pcap = True
     sniff_iface = os.getenv("sniff_iface", "eth0")
     reset_iface = os.getenv("reset_iface", "eth1")
     db_name = "block_ip.db"
