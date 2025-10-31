@@ -123,6 +123,12 @@ Docker全部运行后访问 [http://127.0.0.1/](http://127.0.0.1/) 访问管理�
 ./build.sh exec changeUserPassword -username admin -password xxx
 ```
 
+## API
+
+平台支持通过API对黑白名单进行增删改查，需要先在`系统设置`-`API 管理`页面生成AK/SK。
+
+[api_example.py](https://github.com/SecAegis/SecAutoBan/blob/main/doc/api_example.py)
+
 ## 其他作品
 
 [SecReport](https://github.com/SecAegis/SecReport)：ChatGPT加持的，多人在线协同信息安全报告编写平台。
