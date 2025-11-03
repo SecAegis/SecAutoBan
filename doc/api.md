@@ -12,13 +12,15 @@ SecAutoBan 提供对“封禁（黑名单）”与“白名单”资源的增删
 - sk: 对称加密密钥（用于 AES-GCM，本地加解密，不直接放到网络请求中）
 
 示例请求头：
+
+```
 {
   "ak": ak
 }
+```
 
 ## 加解密说明
 - 算法：AES-GCM
-- 非常重要：sk 的字节长度必须符合 AES 要求（16 / 24 / 32 bytes）。脚本中使用 `sk.encode()` 创建密钥。
 - 加密函数返回布局：nonce(12 bytes) || ciphertext || tag(16 bytes)
 - 解密时以 data[:12] 作为 nonce，data[-16:] 作为 tag，data[12:-16] 为 ciphertext
 
